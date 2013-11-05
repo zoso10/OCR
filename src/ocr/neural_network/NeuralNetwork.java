@@ -24,10 +24,10 @@ public class NeuralNetwork {
         network = NeuralNetworkHelper.create(inputNeurons, outputNeurons, hiddenNeurons);        
     }
     
-    public void trainNetwork() {
+    public void trainNetwork(double[] actual, double[] ideal) {
         if(network == null) { throw new RuntimeException("Neural Network is null\n"); }
         
-        NeuralNetworkHelper.train(network);
+        NeuralNetworkHelper.train(network, actual, ideal);
     }
     
     public void persistNetwork() {

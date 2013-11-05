@@ -3,6 +3,11 @@ package ocr.neural_network;
 import java.io.File;
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.ml.data.MLData;
+import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLComplexData;
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.persist.EncogDirectoryPersistence;
@@ -29,8 +34,9 @@ public class NeuralNetworkHelper {
         return network;
     }
     
-    public static void train(BasicNetwork network) {
-        // TODO: Add functionality
+    public static void train(BasicNetwork network, double[] actual, double[] ideal) {
+        // TODO: Add functionality        
+//        MLDataSet data = new 
     }
     
     public static void persist(String filename, BasicNetwork network) {
