@@ -12,13 +12,13 @@ public class Config {
     public static final int HIDDEN_NEURONS = 40;
     public static final int OUTPUT_NEURONS = 10;
     public static final double ERROR_THRESHOLD = 0.045;
-    public static final String FILENAME = "nn.eg";
+    public static final String FILENAME = "neural_network.eg";
     public static final char[] CHARACTER_LOOKUP = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     
     // MNIST Database
-    public static final String MNIST_TRAIN_IMAGES = "";
-    public static final String MNIST_TRAIN_LABELS = "";
-    public static final String MNIST_TEST_IMAGES = "";
-    public static final String MNIST_TEST_LABELS = "";
+    public static final String MNIST_TRAIN_IMAGES = "ocr/training/mnist/train-images-idx3-ubyte";
+    public static final String MNIST_TRAIN_LABELS = "ocr/training/mnist/train-labels-idx1-ubyte";
+    public static final String MNIST_TEST_IMAGES = "ocr/training/mnist/t10k-images-idx3-ubyte";
+    public static final String MNIST_TEST_LABELS = "ocr/training/mnist/t10k-labels-idx1-ubyte";
     
 }
