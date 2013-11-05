@@ -38,7 +38,8 @@ public class NeuralNetworkBuilder<B extends NeuralNetworkBuilder<B>> {
         return (B)this;
     }
     
-    public B train(double[] actual, double[] ideal) {    
+    public B training(double[][] actual, double[][] ideal) {
+        
         instance.trainNetwork(actual, ideal);
                 
         return null;

@@ -1,17 +1,18 @@
 package ocr.neural_network;
 
+import common.Config;
 import java.io.File;
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.data.basic.BasicMLComplexData;
-import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.persist.EncogDirectoryPersistence;
 
+// Move this helper into NeuralNetwork subclasses
 public class NeuralNetworkHelper {
 
     public static BasicNetwork create(int input, int output) {
@@ -34,13 +35,23 @@ public class NeuralNetworkHelper {
         return network;
     }
     
-    public static void train(BasicNetwork network, double[] actual, double[] ideal) {
+    public static void train(BasicNetwork network, double[][] actual, double[][] ideal) {
         // TODO: Add functionality        
-//        MLDataSet data = new 
+        MLDataSet trainingData = new BasicMLDataSet(actual, ideal);
+        MLTrain train = new ResilientPropagation(network, trainingData);
+        int epoch = 1;
+        
+        // We have to do at least 1 iteration to get an error
+        do {
+            train.iteration();
+            System.out.println(String.format("Epoch: %d, Error: %f", epoch++, train.getError()));
+        } while(train.getError() > Config.ERROR_THRESHOLD);
     }
     
     public static void persist(String filename, BasicNetwork network) {
         EncogDirectoryPersistence.saveObject(new File(filename), network);
         Encog.getInstance().shutdown();
     }
+    
+    
 }
