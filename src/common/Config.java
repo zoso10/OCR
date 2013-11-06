@@ -16,9 +16,9 @@ public class Config {
     public static final char[] CHARACTER_LOOKUP = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     
     // MNIST Database
-    public static final String MNIST_TRAIN_IMAGES = "ocr/training/mnist/train-images-idx3-ubyte";
-    public static final String MNIST_TRAIN_LABELS = "ocr/training/mnist/train-labels-idx1-ubyte";
-    public static final String MNIST_TEST_IMAGES = "ocr/training/mnist/t10k-images-idx3-ubyte";
-    public static final String MNIST_TEST_LABELS = "ocr/training/mnist/t10k-labels-idx1-ubyte";
+    public static final String MNIST_TRAIN_IMAGES = "src/ocr/training/mnist/train-images-idx3-ubyte";
+    public static final String MNIST_TRAIN_LABELS = "src/ocr/training/mnist/train-labels-idx1-ubyte";
+    public static final String MNIST_TEST_IMAGES = "src/ocr/training/mnist/t10k-images-idx3-ubyte";
+    public static final String MNIST_TEST_LABELS = "src/ocr/training/mnist/t10k-labels-idx1-ubyte";
     
 }
