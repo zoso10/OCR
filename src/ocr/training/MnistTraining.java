@@ -22,8 +22,8 @@ public class MnistTraining {
         
         FeatureExtraction fe = FeatureExtractionBuilder
                                 .create()
-                                .children(new HorizontalCelledProjection(4), 
-                                          new VerticalCelledProjection(4))
+                                .children(new HorizontalCelledProjection(5), 
+                                          new VerticalCelledProjection(5))
                                 .build();
         
         for(int i = 1; i <= numTestSamples; ++i) {
