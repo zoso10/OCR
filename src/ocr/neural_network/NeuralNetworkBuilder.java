@@ -38,12 +38,17 @@ public class NeuralNetworkBuilder<B extends NeuralNetworkBuilder<B>> {
         return (B)this;
     }
     
-    public B training(double[][] actual, double[][] ideal) {
-        
-        instance.trainNetwork(actual, ideal);
-                
-        return null;
-    }
+    // I think this is a separate action
+//    public B training(double[][] actual, double[][] ideal) {
+//        
+//        if(instance.getNetwork() == null) {
+//            instance.createNetwork();
+//        }
+//        
+//        instance.trainNetwork(actual, ideal);
+//                
+//        return null;
+//    }
     
     public B fromFile(String filename) {
         instance.setNetwork((BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename)));
@@ -52,6 +57,7 @@ public class NeuralNetworkBuilder<B extends NeuralNetworkBuilder<B>> {
     }
     
     public NeuralNetwork build() {
+        instance.createNetwork();
         
         return instance;
     }

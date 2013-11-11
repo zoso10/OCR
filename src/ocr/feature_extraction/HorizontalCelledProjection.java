@@ -16,7 +16,8 @@ public class HorizontalCelledProjection implements FEMethod {
     public void setPixelMatrix(int[][] pixelMatrix) {
         // TODO: Write cleaner code
         this.pixelMatrix = pixelMatrix;
-        int length = cells * pixelMatrix.length + (pixelMatrix.length % cells) == 0 ? 0 : pixelMatrix.length;
+        int addition = pixelMatrix.length % cells == 0 ? 0 : pixelMatrix.length;
+        int length = (cells * pixelMatrix.length) + addition;
         featureVector = new double[length];
     }
     

@@ -19,7 +19,8 @@ public class NeuralNetwork {
     
     public void createNetwork() {
         if(network != null) { throw new RuntimeException("Network already created. Overwriting existing network\n"); }
-        if(inputNeurons == 0 || outputNeurons == 0) { throw new RuntimeException("Network topology is empty\n"); }
+        // This condition isn't correct
+        //if(inputNeurons == 0 || outputNeurons == 0 || network == null) { throw new RuntimeException("Network topology is empty\n"); }
         
         network = NeuralNetworkHelper.create(inputNeurons, outputNeurons, hiddenNeurons);        
     }
@@ -57,7 +58,7 @@ public class NeuralNetwork {
     }
     
     public BasicNetwork getNetwork() {
-        if(network == null) { throw new RuntimeException("Neural Network is null\n"); }
+        //if(network == null) { throw new RuntimeException("Neural Network is null\n"); }
         
         return network;
     }

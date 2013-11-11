@@ -44,13 +44,16 @@ public class MnistTraining {
         
         NeuralNetwork nn = NeuralNetworkBuilder
                                 .create()
-                                .inputNeurons(48)
-                                .hiddenNeurons(40)
+                                .inputNeurons(224)
+                                .hiddenNeurons(180)
                                 .outputNeurons(Config.OUTPUT_NEURONS)
-                                .training(actual, ideal)
+//                                .training(actual, ideal) // Training is a separate action
                                 .build();
         
+        nn.trainNetwork(actual, ideal);
+        
         nn.persistNetwork();
+        
     }
     
 }
