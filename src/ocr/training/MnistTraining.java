@@ -12,21 +12,28 @@ import ocr.training.mnist.MnistManager;
 
 public class MnistTraining {
     
-    private static final int numTestSamples = 1000;
-
+    /*
+     * ARGS Organization:
+     * 0 -> Number of Train Images
+     * 1 -> Number of cells for HorizontalCelledProjection
+     * 2 -> Number of cells for VerticalCelledProjection
+     * 3 -> Number input neurons
+     * 4 -> Number hidden neurons
+     */
     public static void main(String[] args) throws IOException{
         
-        double[][] actual = new double[numTestSamples][];
-        double[][] ideal = new double[numTestSamples][];
+        int numTrainImages = new Integer(args[0]);
+        double[][] actual = new double[numTrainImages][];
+        double[][] ideal = new double[numTrainImages][];
         MnistManager m = new MnistManager(Config.MNIST_TRAIN_IMAGES, Config.MNIST_TRAIN_LABELS);
         
         FeatureExtraction fe = FeatureExtractionBuilder
                                 .create()
-                                .children(new HorizontalCelledProjection(5), 
-                                          new VerticalCelledProjection(5))
+                                .children(new HorizontalCelledProjection(new Integer(args[1])), 
+                                          new VerticalCelledProjection(new Integer(args[2])))
                                 .build();
         
-        for(int i = 1; i <= numTestSamples; ++i) {
+        for(int i = 1; i <= numTrainImages; ++i) {
             // Get Pixel Matrix
             m.setCurrent(i);
             int[][] image = m.readPixelMatrix();
@@ -44,8 +51,8 @@ public class MnistTraining {
         
         NeuralNetwork nn = NeuralNetworkBuilder
                                 .create()
-                                .inputNeurons(224)
-                                .hiddenNeurons(180)
+                                .inputNeurons(new Integer(args[3]))
+                                .hiddenNeurons(new Integer(args[4]))
                                 .outputNeurons(Config.OUTPUT_NEURONS)
 //                                .training(actual, ideal) // Training is a separate action
                                 .build();
