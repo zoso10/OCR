@@ -16,11 +16,13 @@ public class FeatureExtraction {
     }
     
     public void setPixelMatrix(int[][] pixelMatrix) {
+        int length =0;
         for(FEMethod m : methods) {
             m.setPixelMatrix(pixelMatrix);
+            length += m.getFeatureVector().length;
         }
         
-        featureVector = new ArrayList<>(Config.INPUT_NEURONS);
+        featureVector = new ArrayList<>(length);
     }
     
     public void addMethods(FEMethod... m) {
@@ -40,11 +42,12 @@ public class FeatureExtraction {
             }
         }
         
-        if(Config.INPUT_NEURONS != featureVector.size()) {
-            throw new RuntimeException("Neural Network input and Feature Vector are different sizes.");
-        }
+        // I don't think I'll be storing the input and hidden neuron count in the Config
+//        if(Config.INPUT_NEURONS != featureVector.size()) {
+//            throw new RuntimeException("Neural Network input and Feature Vector are different sizes.");
+//        }
         
-        double[] primitiveFeatureVector = new double[Config.INPUT_NEURONS];
+        double[] primitiveFeatureVector = new double[featureVector.size()];
         
         for(int i = 0; i < featureVector.size(); ++i) {
             primitiveFeatureVector[i] = featureVector.get(i);
