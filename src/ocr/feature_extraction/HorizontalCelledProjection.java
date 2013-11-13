@@ -17,7 +17,7 @@ public class HorizontalCelledProjection implements FEMethod {
         // TODO: Write cleaner code
         this.pixelMatrix = pixelMatrix;
         int addition = pixelMatrix.length % cells == 0 ? 0 : pixelMatrix.length;
-        int length = (cells * pixelMatrix.length) + addition;
+        int length = cells * pixelMatrix.length + addition;
         featureVector = new double[length];
     }
     
@@ -25,13 +25,16 @@ public class HorizontalCelledProjection implements FEMethod {
     public void compute() {
         int m = pixelMatrix.length;
         int n = pixelMatrix[0].length;
-        double q = n / cells;
+        double q = (double)n / (double)cells;
         
         for(int i = 0; i < m; ++i) {
             for(int j = 0; j < n; ++j) {
                 if(pixelMatrix[i][j] > Config.THRESHOLD) {
-                    int index = (int)(i + m * Math.floor((j-1) / q));
-                    featureVector[index] = 1.0;
+                    int index = (int)(i + m * Math.floor(j / q));
+//                    featureVector[index] = 1.0;
+                    try{
+                        featureVector[index] = 1.0;
+                    } catch(Exception e) {System.out.println(i + " " + j);}
                 }
             }
         }

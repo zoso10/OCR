@@ -15,7 +15,8 @@ public class VerticalCelledProjection implements FEMethod {
         // TODO: Write this cleaner
         this.pixelMatrix = transpose(pixelMatrix);
         // To account for non-divisible cell count
-        int length = cells * pixelMatrix.length + (pixelMatrix.length % cells) == 0 ? 0 : pixelMatrix.length;
+        int addition = pixelMatrix.length % cells == 0 ? 0 : pixelMatrix.length;
+        int length = cells * pixelMatrix.length + addition;
         featureVector = new double[length];
     }
 

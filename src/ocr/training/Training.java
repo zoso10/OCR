@@ -1,6 +1,7 @@
 package ocr.training;
 
 import java.io.IOException;
+import ocr.testing.MnistTesting;
 
 public class Training {
 
@@ -10,15 +11,12 @@ public class Training {
         int[] numCellsAr = {4,8};        
         
         for(int numCells : numCellsAr) {
-            int inputNeurons = 0;
-            int hiddenNeurons = (2/3) * inputNeurons;
             for(int numTrainImages : numTrainImagesAr) {
                 String[] params = {intToStr(numTrainImages),
                                    intToStr(numCells),
-                                   intToStr(numCells),
-                                   intToStr(inputNeurons),
-                                   intToStr(hiddenNeurons)};
+                                   intToStr(numCells)};
                 MnistTraining.main(params);
+                MnistTesting.main(params);
             }
         }
             

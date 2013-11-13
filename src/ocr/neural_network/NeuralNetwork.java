@@ -34,7 +34,7 @@ public class NeuralNetwork {
     public void persistNetwork() {
         if(network == null) { throw new RuntimeException("Neural Network is null\n"); }
         
-        NeuralNetworkHelper.persist(Config.FILENAME, network);
+        NeuralNetworkHelper.persist(Config.NN_FILENAME, network);
     }
     
     public char compute(double[] featureVector) {

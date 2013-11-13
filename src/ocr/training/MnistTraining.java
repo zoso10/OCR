@@ -17,8 +17,6 @@ public class MnistTraining {
      * 0 -> Number of Train Images
      * 1 -> Number of cells for HorizontalCelledProjection
      * 2 -> Number of cells for VerticalCelledProjection
-     * 3 -> Number input neurons
-     * 4 -> Number hidden neurons
      */
     public static void main(String[] args) throws IOException{
         
@@ -33,6 +31,7 @@ public class MnistTraining {
                                           new VerticalCelledProjection(new Integer(args[2])))
                                 .build();
         
+        // Build Training Data
         for(int i = 1; i <= numTrainImages; ++i) {
             // Get Pixel Matrix
             m.setCurrent(i);
@@ -49,12 +48,14 @@ public class MnistTraining {
             ideal[i-1] = idealVector;
         }
         
+        int inputNeurons = fe.getFeatureVector().length;
+        int hiddenNeurons = (2/3) * inputNeurons;
+        
         NeuralNetwork nn = NeuralNetworkBuilder
                                 .create()
-                                .inputNeurons(new Integer(args[3]))
-                                .hiddenNeurons(new Integer(args[4]))
+                                .inputNeurons(inputNeurons)
+                                .hiddenNeurons(hiddenNeurons)
                                 .outputNeurons(Config.OUTPUT_NEURONS)
-//                                .training(actual, ideal) // Training is a separate action
                                 .build();
         
         nn.trainNetwork(actual, ideal);

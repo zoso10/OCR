@@ -8,21 +8,20 @@ import java.util.List;
 
 public class FeatureExtraction {
 
-    private List<Double> featureVector;
-    private List<FEMethod> methods;
+    private int featureVectorLength;
+    private final List<FEMethod> methods;
     
     public FeatureExtraction() {
         methods = new LinkedList<>();
     }
     
     public void setPixelMatrix(int[][] pixelMatrix) {
-        int length =0;
+        featureVectorLength = 0;
+        
         for(FEMethod m : methods) {
             m.setPixelMatrix(pixelMatrix);
-            length += m.getFeatureVector().length;
+            featureVectorLength += m.getFeatureVector().length;
         }
-        
-        featureVector = new ArrayList<>(length);
     }
     
     public void addMethods(FEMethod... m) {
@@ -36,21 +35,13 @@ public class FeatureExtraction {
     }
     
     public double[] getFeatureVector() {
+        double[] primitiveFeatureVector = new double[featureVectorLength];
+        int index = 0;
+        
         for(FEMethod m : methods) {
             for(double d : m.getFeatureVector()) {
-                featureVector.add(d);
+                primitiveFeatureVector[index++] = d;
             }
-        }
-        
-        // I don't think I'll be storing the input and hidden neuron count in the Config
-//        if(Config.INPUT_NEURONS != featureVector.size()) {
-//            throw new RuntimeException("Neural Network input and Feature Vector are different sizes.");
-//        }
-        
-        double[] primitiveFeatureVector = new double[featureVector.size()];
-        
-        for(int i = 0; i < featureVector.size(); ++i) {
-            primitiveFeatureVector[i] = featureVector.get(i);
         }
         
         return primitiveFeatureVector;

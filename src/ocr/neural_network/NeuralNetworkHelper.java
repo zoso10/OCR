@@ -35,8 +35,7 @@ public class NeuralNetworkHelper {
         return network;
     }
     
-    public static void train(BasicNetwork network, double[][] actual, double[][] ideal) {
-        // TODO: Add functionality        
+    public static void train(BasicNetwork network, double[][] actual, double[][] ideal) {  
         MLDataSet trainingData = new BasicMLDataSet(actual, ideal);
         MLTrain train = new ResilientPropagation(network, trainingData);
         int epoch = 1;
@@ -44,8 +43,11 @@ public class NeuralNetworkHelper {
         // We have to do at least 1 iteration to get an error
         do {
             train.iteration();
-            System.out.println(String.format("Epoch: %d, Error: %f", epoch++, train.getError()));
+            ++epoch;
+//            System.out.println(String.format("Epoch: %d, Error: %f", epoch++, train.getError()));
         } while(train.getError() > Config.ERROR_THRESHOLD);
+        
+        System.out.println(String.format("Epoch: %d, Number of training images: %d", epoch, actual.length));
     }
     
     public static void persist(String filename, BasicNetwork network) {

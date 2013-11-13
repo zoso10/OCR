@@ -57,7 +57,10 @@ public class NeuralNetworkBuilder<B extends NeuralNetworkBuilder<B>> {
     }
     
     public NeuralNetwork build() {
-        instance.createNetwork();
+        
+        if(instance.getNetwork() == null){
+            instance.createNetwork();
+        }
         
         return instance;
     }
