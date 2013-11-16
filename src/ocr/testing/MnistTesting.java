@@ -3,6 +3,7 @@ package ocr.testing;
 import common.Config;
 import common.PrintHelper;
 import java.io.IOException;
+import java.util.logging.Level;
 import ocr.OCR;
 import ocr.OCRBuilder;
 import ocr.feature_extraction.FeatureExtractionBuilder;
@@ -59,8 +60,8 @@ public class MnistTesting {
             }
         }
         
-        System.out.println("Number correct: " + numCorrect);
-        System.out.println("Accuracy: " + (numCorrect / 10000.0) * 100.0);
+        System.out.println(String.format("Num correct: %d, Accuracy: %f\n", numCorrect, (numCorrect / 10000.0) * 100.0));
+//        Config.getLogger(MnistTesting.class.getName()).log(Level.INFO, "Accuracy: {0}", (numCorrect / 10000.0) * 100.0);
         
     }
 }

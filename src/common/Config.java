@@ -1,5 +1,12 @@
 package common;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 public class Config {
     
     // Image Settings
@@ -20,5 +27,19 @@ public class Config {
     public static final String MNIST_TRAIN_LABELS = "src/mnist/resources/train-labels-idx1-ubyte";
     public static final String MNIST_TEST_IMAGES = "src/mnist/resources/t10k-images-idx3-ubyte";
     public static final String MNIST_TEST_LABELS = "src/mnist/resources/t10k-labels-idx1-ubyte";
+    
+    // Logging
+    public static Logger getLogger(String name) {
+        
+        Logger l = Logger.getLogger(name);
+        try{
+            Handler h = new FileHandler("data.log");
+            Formatter f = new SimpleFormatter();
+            h.setFormatter(f);
+            l.addHandler(h);
+        } catch(IOException | SecurityException e) { System.out.println(e); }
+        
+        return l;
+    }
     
 }
