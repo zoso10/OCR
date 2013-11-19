@@ -10,9 +10,18 @@ import java.util.List;
 public class Segmentation {
     
     public List<BufferedImage> segment(BufferedImage G) {
-        return Segmentation.segmentWords(G);
+        List<BufferedImage> characters = new LinkedList<>();
+        List<BufferedImage> lines = lineSegmentation(G);
+        
+        for(BufferedImage line : lines) {
+            
+        }
+        
+        return characters;
+        //return Segmentation.segmentWords(G);
     }
     
+    // Not robust
     public static List<BufferedImage> segmentWords(BufferedImage G) {
         
         List<BufferedImage> letters = new LinkedList<>();
@@ -54,6 +63,7 @@ public class Segmentation {
         return characters;
     }
     
+    // Not robust
     private static List<BufferedImage> segmentLines(BufferedImage G) {        
         List<BufferedImage> lines = new LinkedList<>();
         List<Integer> currentLine = null;
@@ -83,6 +93,52 @@ public class Segmentation {
         return lines;
     }
     
+    private static BufferedImage trim(BufferedImage G) {
+        BufferedImage trimmedImg = null;
+        
+        return trimmedImg;
+    }
+    
+    
+    // This is better
+    private static List<BufferedImage> lineSegmentation(BufferedImage G) {        
+        int width = G.getWidth();
+        int y0 = -1;
+        int y1 = -1;
+        List<BufferedImage> lines = new LinkedList<>();
+        
+        for(int y = 0; y < G.getHeight(); ++y) {            
+            if(rowHasBlackPixel(G, y)) {
+                if(y0 == -1) { y0 = y; }
+                y1 = y;
+            } else if (y0 != -1) {
+                BufferedImage subimage = G.getSubimage(0, y0, width, y1 - y0);
+                lines.add(subimage);
+                y0 = y1 = -1;
+            }      
+        }
+        
+        return lines;
+    }
+    
+    private static List<BufferedImage> characterSegmentation(BufferedImage G) {
+        int height = G.getHeight();
+        int x0 = -1;
+        int x1 = -1;
+        List<BufferedImage> characters = new LinkedList<>();
+        
+        for(int x = 0; x < G.getWidth(); ++x) {
+            if(colHasBlackPixel(G, x)) {
+                if(x0 == -1) { x0 = x; }
+                x1 = x;
+            } else if (x0 != -1) {
+                
+            }
+        }
+        
+        return characters;
+    }
+    
     private static boolean rowHasBlackPixel(BufferedImage G, int row) {        
         for(int x = 0; x < G.getWidth(); ++x) {
             int color = Math.abs(G.getRGB(x, row));
@@ -108,8 +164,4 @@ public class Segmentation {
         return false;
     }
     
-    
-    
-    // Experimental
-//    private 
 }
