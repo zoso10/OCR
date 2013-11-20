@@ -3,106 +3,32 @@ package ocr.segmentation;
 import common.Config;
 import common.ImageHelper;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Segmentation {
     
     public List<BufferedImage> segment(BufferedImage G) {
-        List<BufferedImage> characters = new LinkedList<>();
+        List<BufferedImage> separatedChars = new LinkedList<>();
         List<BufferedImage> lines = lineSegmentation(G);
         
         for(BufferedImage line : lines) {
+            List<BufferedImage> characters = characterSegmentation(line);
+//            ImageHelper.printImage(line, "line.png");
             
-        }
-        
-        return characters;
-        //return Segmentation.segmentWords(G);
-    }
-    
-    // Not robust
-    public static List<BufferedImage> segmentWords(BufferedImage G) {
-        
-        List<BufferedImage> letters = new LinkedList<>();
-        List<Integer> currentWord = null;
-        
-        for(int x = 0; x < G.getWidth(); ++x) {
-            
-            if(hasBlackPixel(G, x)) {
-                if(currentWord == null) {
-                    currentWord = new ArrayList<>();
-                }
-                currentWord.add(x);
-            }
-            else if(currentWord != null) {
-                int width = currentWord.get(currentWord.size()-1) - currentWord.get(0);
-                int height = G.getHeight();
-                BufferedImage subimage = G.getSubimage(currentWord.get(0), 0, width, height);
-                letters.add(subimage);
-                ImageHelper.printImage(subimage, "segmented_character.png");
-                currentWord = null;
-            }            
-        }
-        
-        // TODO: False, this needs fixed
-        // There should not be any trailing whitespace
-        int width = currentWord.get(currentWord.size()-1) - currentWord.get(0);
-        int height = G.getHeight();
-        BufferedImage subimage = G.getSubimage(currentWord.get(0), 0, width, height);
-        letters.add(subimage);
-        
-        return letters;
-    }
-    
-    private static List<BufferedImage> segmentCharacters(BufferedImage G) {
-        List<BufferedImage> characters = new LinkedList<>();
-        List<Integer> currentChar = null;
-        int height = G.getHeight();
-        
-        return characters;
-    }
-    
-    // Not robust
-    private static List<BufferedImage> segmentLines(BufferedImage G) {        
-        List<BufferedImage> lines = new LinkedList<>();
-        List<Integer> currentLine = null;
-        int width = G.getWidth();
-        
-        for(int y = 0; y < G.getHeight(); ++y) {
-            
-            if(rowHasBlackPixel(G, y)) {
-                if(currentLine == null) { currentLine = new ArrayList<>(); }
-                currentLine.add(y);
-            }
-            else if(currentLine != null) {
-                int height = currentLine.get(currentLine.size()-1) - currentLine.get(0);
-                BufferedImage subImage = G.getSubimage(0, currentLine.get(0), width, height);
-                lines.add(subImage);
-                ImageHelper.printImage(subImage, "segmented_line.png");
-                currentLine = null;
+            for(BufferedImage character : characters) {
+//                ImageHelper.printImage(character, "character.png");
+                BufferedImage trimmed = trim(character);
+//                ImageHelper.printImage(trimmed, "trimmed.png");
+                separatedChars.add(trimmed);
             }
         }
         
-        if(currentLine != null) {
-            int height = currentLine.get(currentLine.size()-1) - currentLine.get(0);
-            BufferedImage subImage = G.getSubimage(0, currentLine.get(0), width, height);
-            lines.add(subImage);            
-        }
-        
-        return lines;
+        return separatedChars;
     }
     
-    private static BufferedImage trim(BufferedImage G) {
-        BufferedImage trimmedImg = null;
-        
-        return trimmedImg;
-    }
-    
-    
-    // This is better
     private static List<BufferedImage> lineSegmentation(BufferedImage G) {        
-        int width = G.getWidth();
+        int width = G.getWidth()-1;
         int y0 = -1;
         int y1 = -1;
         List<BufferedImage> lines = new LinkedList<>();
@@ -117,12 +43,17 @@ public class Segmentation {
                 y0 = y1 = -1;
             }      
         }
+        // In case the image ends on a black pixel we want to get the last line
+        if(y0 != -1) {
+            BufferedImage subimage = G.getSubimage(0, y0, width, y1 - y0);
+            lines.add(subimage);            
+        }
         
         return lines;
     }
     
     private static List<BufferedImage> characterSegmentation(BufferedImage G) {
-        int height = G.getHeight();
+        int height = G.getHeight()-1;
         int x0 = -1;
         int x1 = -1;
         List<BufferedImage> characters = new LinkedList<>();
@@ -132,11 +63,36 @@ public class Segmentation {
                 if(x0 == -1) { x0 = x; }
                 x1 = x;
             } else if (x0 != -1) {
-                
+//                System.out.println(String.format("x1:%d x0:%d", x1, x0));
+                BufferedImage subimage = G.getSubimage(x0, 0, x1-x0, height);
+                characters.add(subimage);
+                x0 = x1 = -1;
             }
+        }
+        // In case the image ends on a black pixel we want to get the last character
+        if(x0 != -1) {
+            BufferedImage subimage = G.getSubimage(x0, 0, x1-x0, height);
+            characters.add(subimage);
         }
         
         return characters;
+    }
+    
+    private static BufferedImage trim(BufferedImage G) {
+        int width = G.getWidth()-1;
+        int y0 = -1;
+        int y1 = -1;
+        
+        for(int y = 0; y < G.getHeight(); ++y) {            
+            if(rowHasBlackPixel(G, y)) {
+                if(y0 == -1) { y0 = y; }
+                y1 = y;
+            } else if (y0 != -1) {
+                return G.getSubimage(0, y0, width, y1 - y0);
+            }      
+        }
+
+        return G.getSubimage(0, y0, width, y1 - y0);
     }
     
     private static boolean rowHasBlackPixel(BufferedImage G, int row) {        
@@ -153,15 +109,5 @@ public class Segmentation {
             if(color > Config.THRESHOLD) { return true; }
         }
         return false;
-    }
-    
-    private static boolean hasBlackPixel(BufferedImage G, int col) {
-        
-        for(int y = 0; y < G.getHeight(); ++y) {
-            int color = Math.abs(G.getRGB(col, y));
-            if(color > Config.THRESHOLD) { return true; }
-        }
-        return false;
-    }
-    
+    }    
 }
