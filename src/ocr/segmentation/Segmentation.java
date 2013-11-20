@@ -37,14 +37,14 @@ public class Segmentation {
             if(rowHasBlackPixel(G, y)) {
                 if(y0 == -1) { y0 = y; }
                 y1 = y;
-            } else if (y0 != -1) {
+            } else if (y0 != -1 && y0 != y1) {
                 BufferedImage subimage = G.getSubimage(0, y0, width, y1 - y0);
                 lines.add(subimage);
                 y0 = y1 = -1;
             }      
         }
         // In case the image ends on a black pixel we want to get the last line
-        if(y0 != -1) {
+        if(y0 != -1 && y0 != y1) {
             BufferedImage subimage = G.getSubimage(0, y0, width, y1 - y0);
             lines.add(subimage);            
         }
@@ -62,7 +62,7 @@ public class Segmentation {
             if(colHasBlackPixel(G, x)) {
                 if(x0 == -1) { x0 = x; }
                 x1 = x;
-            } else if (x0 != -1) {
+            } else if (x0 != -1 && x0 != x1) {
 //                System.out.println(String.format("x1:%d x0:%d", x1, x0));
                 BufferedImage subimage = G.getSubimage(x0, 0, x1-x0, height);
                 characters.add(subimage);
@@ -70,7 +70,7 @@ public class Segmentation {
             }
         }
         // In case the image ends on a black pixel we want to get the last character
-        if(x0 != -1) {
+        if(x0 != -1 && x0 != x1) {
             BufferedImage subimage = G.getSubimage(x0, 0, x1-x0, height);
             characters.add(subimage);
         }
@@ -87,7 +87,7 @@ public class Segmentation {
             if(rowHasBlackPixel(G, y)) {
                 if(y0 == -1) { y0 = y; }
                 y1 = y;
-            } else if (y0 != -1) {
+            } else if (y0 != -1 && y0 != y1) {
                 return G.getSubimage(0, y0, width, y1 - y0);
             }      
         }
