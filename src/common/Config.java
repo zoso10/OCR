@@ -19,6 +19,7 @@ public class Config {
     public static final int HIDDEN_NEURONS = 180; // This will probably go away
     public static final int OUTPUT_NEURONS = 10;
     public static final double ERROR_THRESHOLD = 0.015;
+    public static final double EPOCH_THRESHOLD = 250;
     public static final String NN_FILENAME = "neural_network.eg";
     public static final char[] CHARACTER_LOOKUP = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     

@@ -27,16 +27,13 @@ public class MnistTraining {
         double[][] ideal = new double[numTrainImages][];
         MnistManager m = new MnistManager(Config.MNIST_TRAIN_IMAGES, Config.MNIST_TRAIN_LABELS);
         
-//        FeatureExtraction fe = FeatureExtractionBuilder
-//                                .create()
-//                                .children(new HorizontalCelledProjection(new Integer(args[1])), 
-//                                          new VerticalCelledProjection(new Integer(args[2])))
-//                                .build();
-        
         FeatureExtraction fe = FeatureExtractionBuilder
-                                    .create()
-                                    .children(new VerticalProjectionHistogram()) 
-                                    .build();
+                                .create()
+                                .children(new HorizontalCelledProjection(new Integer(args[1])), 
+                                          new VerticalCelledProjection(new Integer(args[2])),
+                                          new HorizontalProjectionHistogram(),
+                                          new VerticalProjectionHistogram())
+                                .build();
         
         // Build Training Data
         for(int i = 1; i <= numTrainImages; ++i) {

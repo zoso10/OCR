@@ -45,11 +45,11 @@ public class NeuralNetworkHelper {
             train.iteration();
             ++epoch;
 //            System.out.println(String.format("Epoch: %d, Error: %f", epoch++, train.getError()));
-        } while(train.getError() > Config.ERROR_THRESHOLD && epoch < 250);
+        } while(train.getError() > Config.ERROR_THRESHOLD && epoch < Config.EPOCH_THRESHOLD);
         
         Encog.getInstance().shutdown();
         
-        String msg = String.format("Input Neurons: %d, Epoch: %d, Num train images: %d", network.getInputCount(), epoch, actual.length);
+        String msg = String.format("Input Neurons: %d, Epoch: %d, Num train images: %d, NN Error: %f", network.getInputCount(), epoch, actual.length, train.getError()*100);
         System.out.println(msg);
 //        Config.getLogger(NeuralNetworkBuilder.class.getName()).info(msg);
     }

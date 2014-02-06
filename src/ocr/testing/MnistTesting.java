@@ -39,9 +39,10 @@ public class MnistTesting {
                         .featureExtraction(
                             FeatureExtractionBuilder
                                 .create()
-//                                .children(new HorizontalCelledProjection(new Integer(args[1])),
-//                                          new VerticalCelledProjection(new Integer(args[2])))
-                                .children(new VerticalProjectionHistogram())
+                                .children(new HorizontalCelledProjection(new Integer(args[1])),
+                                          new VerticalCelledProjection(new Integer(args[2])),
+                                          new HorizontalProjectionHistogram(),
+                                          new VerticalProjectionHistogram())
                                 .build()
                             )
                         .neuralNetwork(
