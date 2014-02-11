@@ -45,7 +45,8 @@ public class NeuralNetworkHelper {
             train.iteration();
             ++epoch;
 //            System.out.println(String.format("Epoch: %d, Error: %f", epoch++, train.getError()));
-        } while(train.getError() > Config.ERROR_THRESHOLD && epoch < Config.EPOCH_THRESHOLD);
+//        } while(train.getError() > Config.ERROR_THRESHOLD && epoch < Config.EPOCH_THRESHOLD);
+        } while(epoch < Config.EPOCH_THRESHOLD);
         
         Encog.getInstance().shutdown();
         
