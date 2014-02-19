@@ -30,7 +30,7 @@ public class LocalLineFitting implements FEMethod {
             for(int j = 0; j < pixelMatrix[0].length - cellSize; j += cellSize) {
                 double b = slope(i, j, cellSize);
                 // TODO: Setting slope to 0 is incorrect
-                if(Double.isNaN(b)) { b = 0; }
+                if(Double.isNaN(b)) { System.out.println("NAN"); b = 0; }
                 int startIndex = 3 * (i / cellSize) + 12 * (j / cellSize);
                 featureVector[startIndex] = density(i, j, cellSize);
                 featureVector[startIndex + 1] = f2(b);
@@ -65,11 +65,11 @@ public class LocalLineFitting implements FEMethod {
     
     private double f2(double b) {
         
-        return b == 0 ? 1000 : (2 * b) / (1 + b *b);
+        return (2 * b) / (1 + b *b);
     }
     
     private double f3(double b) {
         
-        return b == 0 ? 0 : (1 - b * b) / (1 + b * b);
+        return (1 - b * b) / (1 + b * b);
     }
 }
