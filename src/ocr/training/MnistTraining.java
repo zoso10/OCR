@@ -6,6 +6,7 @@ import ocr.feature_extraction.FeatureExtraction;
 import ocr.feature_extraction.FeatureExtractionBuilder;
 import ocr.feature_extraction.HorizontalCelledProjection;
 import ocr.feature_extraction.HorizontalProjectionHistogram;
+import ocr.feature_extraction.LocalLineFitting;
 import ocr.feature_extraction.VerticalCelledProjection;
 import ocr.feature_extraction.VerticalProjectionHistogram;
 import ocr.neural_network.NeuralNetwork;
@@ -29,10 +30,12 @@ public class MnistTraining {
         
         FeatureExtraction fe = FeatureExtractionBuilder
                                 .create()
-                                .children(new HorizontalCelledProjection(new Integer(args[1])), 
-                                          new VerticalCelledProjection(new Integer(args[2])),
+                                .children(
+                                          new HorizontalCelledProjection(new Integer(args[1])), 
+                                          new VerticalCelledProjection(new Integer(args[1])),
                                           new HorizontalProjectionHistogram(),
-                                          new VerticalProjectionHistogram())
+                                          new VerticalProjectionHistogram(),
+                                          new LocalLineFitting(49))
                                 .build();
         
         // Build Training Data

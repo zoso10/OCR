@@ -15,8 +15,6 @@ public class Config {
     public static final int IMAGE_WIDTH = 28;
 
     // Neural Network Settings
-    public static final int INPUT_NEURONS = 224; // This will probably go away
-    public static final int HIDDEN_NEURONS = 180; // This will probably go away
     public static final int OUTPUT_NEURONS = 10;
     public static final double ERROR_THRESHOLD = 0.015;
     public static final double EPOCH_THRESHOLD = 2500;

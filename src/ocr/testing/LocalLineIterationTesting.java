@@ -2,12 +2,14 @@ package ocr.testing;
 
 import common.Config;
 import common.ImageHelper;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import ocr.training.mnist.MnistManager;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 public class LocalLineIterationTesting {
     
+    // Below lies the random "testing"(?), try not to cringe
     public static void main(String[] args) throws IOException{
         
         int cells = 16;
@@ -16,6 +18,7 @@ public class LocalLineIterationTesting {
         // Grab first image
         mm.setCurrent(1);
         int[][] image = mm.readPixelMatrix();
+        BufferedImage bimg = mm.readImage();
         
         ImageHelper.printImage(mm.readImage(), "llf_test.png");
         System.out.println("The number is: " + mm.readLabel());
@@ -25,7 +28,7 @@ public class LocalLineIterationTesting {
         System.out.println("The size of the cells are " + cellSize + " pixels");
         
         // Check that the cell iteration is correct
-        for(int i = 0; i < image.length-cellSize; i += cellSize) {
+        for(int i = 0; i < image.length; i += cellSize) {
             for(int j = 0; j < image[0].length; j += cellSize) {
                 String info = String.format("Top left X: %d Y: %d Bottom right X: %d Y: %d", i, j, i + cellSize, j + cellSize);
                 System.out.println(info);
@@ -39,10 +42,11 @@ public class LocalLineIterationTesting {
     private static double slope(int x, int y, int cellSize, int[][] pixelMatrix) {
         // Least Squares Fitting
         SimpleRegression sr = new SimpleRegression();
+        int count = 0;
         
         for(int i = x; i < x+cellSize; ++i) {
             for(int j = y; j < y+cellSize; ++j) {
-                if(pixelMatrix[i][j] > Config.THRESHOLD) { sr.addData(i, j); }
+                if(pixelMatrix[i][j] > Config.THRESHOLD) { sr.addData(i, j); System.out.println(i + " " + j); ++count; }
             }
         }
         
