@@ -7,8 +7,8 @@ public class Training {
 
     public static void main(String[] args) throws IOException{
         
-        int[] numTrainImagesAr = {1000,5000,10000};
-        int[] numCellsAr = {2,5};
+        int[] numTrainImagesAr = {60000};
+        int[] numCellsAr = {5};
         
         for(int numCells : numCellsAr) {
             for(int numTrainImages : numTrainImagesAr) {

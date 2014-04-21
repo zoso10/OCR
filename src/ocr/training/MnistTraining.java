@@ -23,7 +23,7 @@ public class MnistTraining {
      */
     public static void main(String[] args) throws IOException{
         
-        int numTrainImages = new Integer(args[0]);
+        int numTrainImages = new Integer(new Integer(args[0]));
         double[][] actual = new double[numTrainImages][];
         double[][] ideal = new double[numTrainImages][];
         MnistManager m = new MnistManager(Config.MNIST_TRAIN_IMAGES, Config.MNIST_TRAIN_LABELS);
@@ -31,8 +31,10 @@ public class MnistTraining {
         FeatureExtraction fe = FeatureExtractionBuilder
                                 .create()
                                 .children(
-                                          new HorizontalCelledProjection(new Integer(args[1])), 
-                                          new VerticalCelledProjection(new Integer(args[1])),
+//                                          new HorizontalCelledProjection(new Integer(args[1])), 
+//                                          new VerticalCelledProjection(new Integer(args[1])),
+                                          new HorizontalCelledProjection(5), 
+                                          new VerticalCelledProjection(5),
                                           new HorizontalProjectionHistogram(),
                                           new VerticalProjectionHistogram(),
                                           new LocalLineFitting(49))
@@ -65,8 +67,10 @@ public class MnistTraining {
                                 .outputNeurons(Config.OUTPUT_NEURONS)
                                 .build();
         
+        System.out.println("Beginning training");
         nn.trainNetwork(actual, ideal);
         
+        System.out.println("Saving Network");
         nn.persistNetwork();
         
     }

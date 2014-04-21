@@ -26,23 +26,17 @@ public class MnistTesting {
     public static void main(String[] args) throws IOException{
         
         // Use all 10,000 test images
-//        int numTestImages = new Integer(args[0]);
         int numCorrect = 0;
         int[][] image;
         MnistManager m = new MnistManager(Config.MNIST_TEST_IMAGES, Config.MNIST_TEST_LABELS);
-        
-        for(int i = 1; i <= 10000; ++i) {
-            m.setCurrent(i);
-            image = m.readPixelMatrix();
-            
-            OCR ocr = OCRBuilder
+        OCR ocr = OCRBuilder
                         .create()
                         .featureExtraction(
                             FeatureExtractionBuilder
                                 .create()
                                 .children(
-                                          new HorizontalCelledProjection(new Integer(args[1])),
-                                          new VerticalCelledProjection(new Integer(args[1])),
+                                          new HorizontalCelledProjection(5),
+                                          new VerticalCelledProjection(5),
                                           new HorizontalProjectionHistogram(),
                                           new VerticalProjectionHistogram(),
                                           new LocalLineFitting(49))
@@ -55,6 +49,14 @@ public class MnistTesting {
                                 .build()
                             )
                         .build();
+        
+        // Do some rudimentary benchmarking
+        long start = System.currentTimeMillis();
+        for(int i = 1; i <= 10000; ++i) {
+            m.setCurrent(i);
+            image = m.readPixelMatrix();
+            
+            
             
             String digitStr = ocr.identify(image);
             int digit = new Integer(digitStr).intValue();
@@ -66,8 +68,10 @@ public class MnistTesting {
 //                PrintHelper.prettyPrintArray(outputVector);
             }
         }
+        long end = System.currentTimeMillis();
         
         System.out.println(String.format("Num correct: %d, Accuracy: %f\n", numCorrect, (numCorrect / 10000.0) * 100.0));
+        System.out.println("Total Recognition time is " + (end - start) + "ms.");
 //        Config.getLogger(MnistTesting.class.getName()).log(Level.INFO, "Accuracy: {0}", (numCorrect / 10000.0) * 100.0);
         
     }

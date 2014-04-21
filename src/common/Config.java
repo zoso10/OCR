@@ -17,7 +17,7 @@ public class Config {
     // Neural Network Settings
     public static final int OUTPUT_NEURONS = 10;
     public static final double ERROR_THRESHOLD = 0.015;
-    public static final double EPOCH_THRESHOLD = 2500;
+    public static final double EPOCH_THRESHOLD = 750;
     public static final String NN_FILENAME = "neural_network.eg";
     public static final char[] CHARACTER_LOOKUP = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     
